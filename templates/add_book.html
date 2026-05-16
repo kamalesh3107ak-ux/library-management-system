@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="form-container">
+
+        <form method="POST" enctype="multipart/form-data">
+
+            <h1>Add New Book</h1>
+
+            <input
+            type="text"
+            name="title"
+            placeholder="Enter Book Title"
+            required
+            >
+
+            <input
+            type="text"
+            name="author"
+            placeholder="Enter Author Name"
+            required
+            >
+
+            <input
+            type="file"
+            name="image"
+            accept="image/*"
+            required
+            >
+
+            <button type="submit">
+                Add Book
+            </button>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

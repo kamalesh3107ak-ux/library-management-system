@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+</head>
+<body>
+
+    <!-- FLASH MESSAGE -->
+
+    {% with messages = get_flashed_messages() %}
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div class="flash-message">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+    <!-- WELCOME POPUP -->
+
+{% if session.pop("welcome", None) %}
+
+<div class="welcome-popup">
+
+    👋 Welcome, {{ session["user"] }}
+
+</div>
+
+{% endif %}
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <h1 class="logo">
+            📚 Library Management
+        </h1>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="#">
+                Books
+            </a>
+
+            {% if "user" in session %}
+
+                <a href="/add">
+                    Add Book
+                </a>
+
+                <a href="/profile">
+                    Profile
+                </a>
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            {% else %}
+
+                <a href="/register">
+                    Register
+                </a>
+
+                <a href="/login">
+                    Login
+                </a>
+
+            {% endif %}
+            
+            <div class="clock-box">
+
+    <span id="live-date"></span>
+
+    <span id="live-clock"></span>
+
+</div>
+
+            <button id="theme-toggle">
+                🌙
+            </button>
+
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h2>
+                Manage Your Library Smartly
+            </h2>
+
+            <p>
+                Discover, borrow and manage books easily
+                with our modern library system.
+            </p>
+
+            <button>
+                Explore Books
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- SEARCH -->
+
+    <section class="search-section">
+
+        <form method="GET" action="/">
+
+            <input
+            type="text"
+            name="search"
+            placeholder="Search books..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </section>
+
+    <!-- BOOKS -->
+
+    <section class="books-section">
+
+        <h2 class="section-title">
+            Popular Books
+        </h2>
+
+        <div class="book-container">
+
+            {% for book in books %}
+
+            <div class="book-card">
+
+                <i class="fa-solid fa-book-open book-icon"></i>
+
+                <h3>{{ book[1] }}</h3>
+
+                <p>
+                    Author : {{ book[2] }}
+                </p>
+
+                <h4 class="status">
+                    Status : {{ book[4] }}
+                </h4>
+
+                <p>
+                    Due Date : {{ book[5] }}
+                </p>
+
+                <p>
+                    Fine : ₹{{ book[6] }}
+                </p>
+
+                <div class="card-buttons">
+
+                    <a href="{{ url_for('static', filename='uploads/' + book[3]) }}" target="_blank">
+
+                        <button class="borrow-btn">
+                            Read Book
+                        </button>
+                    </a>
+                    <a href="{{ url_for('static', filename='uploads/' + book[3]) }}"
+download>
+
+    <button class="download-btn">
+
+        Download PDF
+
+    </button>
+
+</a>
+
+                    {% if book[4] == "Available" %}
+
+                        <a href="/borrow/{{ book[0] }}">
+
+                            <button class="borrow-btn">
+                                Borrow
+                            </button>
+
+                        </a>
+
+                    {% else %}
+
+                        <a href="/return/{{ book[0] }}">
+
+                            <button class="return-btn">
+                                Return
+                            </button>
+
+                        </a>
+
+                    {% endif %}
+
+                    <a href="/edit/{{ book[0] }}">
+
+                        <button class="edit-btn">
+                            Edit
+                        </button>
+
+                    </a>
+
+                    <a href="/delete/{{ book[0] }}">
+
+                        <button class="delete-btn">
+                            Delete
+                        </button>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <h2>
+                📚 Library Management
+            </h2>
+
+            <p>
+                Your modern community library platform
+                for reading, borrowing and sharing knowledge.
+            </p>
+
+            <div class="footer-links">
+
+                <a href="/">Home</a>
+                <a href="/dashboard">Dashboard</a>
+
+                {% if "user" in session %}
+
+                    <a href="/add">
+                        Add Book
+                    </a>
+
+                    <a href="/profile">
+                        Profile
+                    </a>
+
+                {% else %}
+
+                    <a href="/login">
+                        Login
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+            <div class="footer-social">
+
+                <a href="https://github.com/kamalesh3107ak-ux" target="_blank">
+
+                    <i class="fab fa-github"></i>
+
+                </a>
+
+                <a href="https://www.linkedin.com/in/kamalesh1331/" target="_blank">
+
+                    <i class="fab fa-linkedin"></i>
+
+                </a>
+
+            </div>
+
+            <h4>
+                © 2026 Library Management System | Built with Flask
+            </h4>
+
+        </div>
+
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

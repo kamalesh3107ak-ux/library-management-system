@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <section class="dashboard">
+
+        <h1 class="section-title">
+            📊 Admin Dashboard
+        </h1>
+
+        <div class="dashboard-container">
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+
+                    <h2>{{ total }}</h2>
+
+                    <p>Total Books</p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <h2>{{ available }}</h2>
+
+                    <p>Available Books</p>
+
+                </div>
+
+                <div class="dashboard-card">
+
+                    <h2>{{ borrowed }}</h2>
+
+                    <p>Borrowed Books</p>
+
+                </div>
+
+            </div>
+
+            <!-- CHART -->
+
+            <div class="chart-container">
+
+                <canvas id="libraryChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <script>
+
+    const ctx = document.getElementById('libraryChart');
+
+    new Chart(ctx, {
+
+        type: 'doughnut',
+
+        data: {
+
+            labels: [
+
+                'Available',
+                'Borrowed'
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    Number("{{ available }}"),
+                    Number("{{ borrowed }}")
+                ],
+
+                backgroundColor: [
+
+                    '#22c55e',
+                    '#ef4444'
+                ],
+
+                borderWidth: 0
+            }]
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    labels: {
+
+                        color: 'white',
+
+                        font: {
+
+                            size: 16
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    </script>
+
+</body>
+</html>

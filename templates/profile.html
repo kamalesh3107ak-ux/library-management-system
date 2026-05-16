@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="profile-container">
+
+        <div class="profile-card">
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+            <h1>
+                {{ username }}
+            </h1>
+
+            <p>
+                Welcome to your library profile
+            </p>
+
+            <div class="profile-stats">
+
+                <div class="stat-box">
+
+                    <h2>{{ borrowed }}</h2>
+
+                    <span>Borrowed Books</span>
+
+                </div>
+
+            </div>
+
+            <a href="/logout">
+
+                <button class="profile-btn">
+                    Logout
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
